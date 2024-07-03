@@ -1,5 +1,6 @@
 package com.example.demo.entity;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 
@@ -17,14 +18,16 @@ public class FootballTeam {
     @Column(name="team_name")
     private String teamName;
 
-
+    @JsonBackReference
     @ManyToOne(cascade = {CascadeType.PERSIST, CascadeType.MERGE, CascadeType.REFRESH, CascadeType.DETACH})
     @JoinColumn(name="league_id", referencedColumnName = "id")
     private League league;
 
+    @JsonManagedReference
     @OneToMany(mappedBy = "homeTeam")
     private List<Match> homeMatches;
 
+    @JsonManagedReference
     @OneToMany(mappedBy = "awayTeam")
     private List<Match> awayMatches;
 

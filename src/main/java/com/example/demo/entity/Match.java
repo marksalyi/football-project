@@ -1,5 +1,6 @@
 package com.example.demo.entity;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import jakarta.persistence.*;
 
 @Entity
@@ -11,10 +12,12 @@ public class Match {
     @Column(name="id")
     private int id;
 
+    @JsonBackReference
     @ManyToOne
     @JoinColumn(name = "home_team_id", nullable = false)
     private FootballTeam homeTeam;
 
+    @JsonBackReference
     @ManyToOne
     @JoinColumn(name = "away_team_id", nullable = false)
     private FootballTeam awayTeam;
