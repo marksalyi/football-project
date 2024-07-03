@@ -3,6 +3,8 @@ package com.example.demo.entity;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 
+import java.util.List;
+
 @Entity
 @Table(name="football_team")
 public class FootballTeam {
@@ -15,10 +17,16 @@ public class FootballTeam {
     @Column(name="team_name")
     private String teamName;
 
-    @JsonManagedReference
+
     @ManyToOne(cascade = {CascadeType.PERSIST, CascadeType.MERGE, CascadeType.REFRESH, CascadeType.DETACH})
     @JoinColumn(name="league_id", referencedColumnName = "id")
     private League league;
+
+    @OneToMany(mappedBy = "homeTeam")
+    private List<Match> homeMatches;
+
+    @OneToMany(mappedBy = "awayTeam")
+    private List<Match> awayMatches;
 
     public FootballTeam(){
 
@@ -51,6 +59,22 @@ public class FootballTeam {
 
     public void setLeague(League league) {
         this.league = league;
+    }
+
+    public List<Match> getHomeMatches() {
+        return homeMatches;
+    }
+
+    public void setHomeMatches(List<Match> homeMatches) {
+        this.homeMatches = homeMatches;
+    }
+
+    public List<Match> getAwayMatches() {
+        return awayMatches;
+    }
+
+    public void setAwayMatches(List<Match> awayMatches) {
+        this.awayMatches = awayMatches;
     }
 
     @Override

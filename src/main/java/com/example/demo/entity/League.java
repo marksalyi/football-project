@@ -19,7 +19,7 @@ public class League {
     @Column(name="league_name")
     private String leagueName;
 
-    @JsonBackReference
+
     @OneToMany(mappedBy = "league", cascade = {CascadeType.DETACH, CascadeType.MERGE, CascadeType.PERSIST, CascadeType.REFRESH})
     private Set<FootballTeam> footballTeams;
 

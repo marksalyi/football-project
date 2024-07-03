@@ -1,13 +1,16 @@
 package com.example.demo.rest;
 
 import com.example.demo.dao.LeagueDAO;
+import com.example.demo.dao.MatchDAO;
 import com.example.demo.dao.TeamDAO;
 import com.example.demo.entity.FootballTeam;
 import com.example.demo.entity.League;
+import com.example.demo.entity.Match;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
+// Match 2 field team1, team2, onetoone kapcsolat , result
 // DAO mindkettőre plusz domain specific crud method for all layer
 
 @RestController
@@ -18,9 +21,12 @@ public class DemoRestController {
 
     public TeamDAO teamDAO;
 
-    public DemoRestController(LeagueDAO theLeagueDAO, TeamDAO theTeamDAO){
+    public MatchDAO matchDAO;
+
+    public DemoRestController(LeagueDAO theLeagueDAO, TeamDAO theTeamDAO, MatchDAO theMatchDAO){
         leagueDAO = theLeagueDAO;
         teamDAO = theTeamDAO;
+        matchDAO = theMatchDAO;
     }
 
     @GetMapping("/leagues")
@@ -58,6 +64,13 @@ public class DemoRestController {
         FootballTeam dbFootballTeam = teamDAO.save(theFootballTeam);
 
         return dbFootballTeam;
+    }
+
+    @PostMapping("/newmatch")
+    public Match createMatch(@RequestBody Match theMatch){
+
+        Match dbMatch = matchDAO.save(theMatch);
+        return dbMatch;
     }
 
     @PutMapping("/updateleague")
