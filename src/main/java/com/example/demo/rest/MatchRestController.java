@@ -1,10 +1,11 @@
 package com.example.demo.rest;
 
 
-import com.example.demo.dao.LeagueDAO;
-import com.example.demo.dao.MatchDAO;
-import com.example.demo.dao.TeamDAO;
 import com.example.demo.entity.Match;
+import com.example.demo.rest.dto.MatchRequest;
+import com.example.demo.rest.dto.MatchResponse;
+import com.example.demo.service.MatchService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -14,16 +15,22 @@ import org.springframework.web.bind.annotation.RestController;
 @RequestMapping("/api/match")
 public class MatchRestController {
 
-    public MatchDAO matchDAO;
+    public MatchService matchService;
 
-    public MatchRestController(MatchDAO theMatchDAO){
-        matchDAO = theMatchDAO;
+    public MatchRestController(MatchService theMatchService){
+        matchService = theMatchService;
     }
 
     @PostMapping("/newmatch")
-    public Match createMatch(@RequestBody Match theMatch){
+    public MatchResponse createMatch(@RequestBody MatchRequest theMatch){
 
-        Match dbMatch = matchDAO.save(theMatch);
+        MatchResponse dbMatch = matchService.save(theMatch);
         return dbMatch;
     }
+
+
+    //Task: 1. new column Result - String, Enum
+    //2. Service.save() - calculate value of 1. column
+    // 3. Mapper for Match and request and response
+    // 3. implement getTeamsByPointsInLeague2 based on new column
 }

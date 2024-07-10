@@ -1,0 +1,2 @@
+### Get the team with the latest result for league with id 1
+GET http://localhost:8080/api/league/leagues/1/teams2

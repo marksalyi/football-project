@@ -24,20 +24,17 @@ public class TeamDAOImpl implements TeamDAO {
     }
 
     @Override
-    @Transactional
     public FootballTeam save(FootballTeam footballTeam) {
         FootballTeam dbFootballTeam =  entityManager.merge(footballTeam);
         return dbFootballTeam;
     }
 
     @Override
-    @Transactional
     public void update(FootballTeam footballTeam) {
         entityManager.merge(footballTeam);
     }
 
     @Override
-    @Transactional
     public void delete(int theId) {
         FootballTeam dbFootballTeam = entityManager.find(FootballTeam.class, theId);
         entityManager.remove(dbFootballTeam);

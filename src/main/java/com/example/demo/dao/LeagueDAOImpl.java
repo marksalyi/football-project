@@ -37,21 +37,18 @@ public class LeagueDAOImpl implements LeagueDAO {
     }
 
     @Override
-    @Transactional
     public League save(League theLeague) {
         League dbLeague = entityManager.merge(theLeague);
         return dbLeague;
     }
 
     @Override
-    @Transactional
     public void deleteById(int theId) {
         League theLeague = entityManager.find(League.class, theId);
         entityManager.remove(theLeague);
     }
 
     @Override
-    @Transactional
     public void update(League theLeague) {
         entityManager.merge(theLeague);
     }

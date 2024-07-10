@@ -22,9 +22,17 @@ public class Match {
     @JoinColumn(name = "away_team_id", nullable = false)
     private FootballTeam awayTeam;
 
+    @JoinColumn(name = "home_team_score")
     private int homeTeamScore;
 
+    @JoinColumn(name = "away_team_score")
     private int awayTeamScore;
+
+    @JoinColumn(name = "result")
+    @Enumerated(EnumType.STRING)
+    private Result result;
+
+
 
     public Match() {
 
@@ -75,5 +83,13 @@ public class Match {
 
     public void setAwayTeamScore(int awayTeamScore) {
         this.awayTeamScore = awayTeamScore;
+    }
+
+    public Result getResult() {
+        return result;
+    }
+
+    public void setResult(Result result) {
+        this.result = result;
     }
 }
