@@ -1,11 +1,15 @@
 package com.example.demo.rest;
 
+import com.example.demo.dao.StatisticsDAO;
+import com.example.demo.dao.StatisticsImpl;
 import com.example.demo.entity.FootballTeam;
 import com.example.demo.entity.League;
 import com.example.demo.entity.Match;
 import com.example.demo.entity.Result;
+import com.example.demo.entity.Statistics;
 import com.example.demo.service.LeagueService;
 import com.example.demo.service.MatchService;
+import com.example.demo.service.StatisticsService;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.HashMap;
@@ -24,9 +28,12 @@ public class LeagueRestController {
 
     public MatchService matchService;
 
-    public LeagueRestController(LeagueService theLeagueService, MatchService theMatchService) {
+    public StatisticsService statisticsService;
+
+    public LeagueRestController(LeagueService theLeagueService, MatchService theMatchService, StatisticsService theStatisticsService) {
         leagueService = theLeagueService;
         matchService = theMatchService;
+        statisticsService = theStatisticsService;
     }
 
     @GetMapping("/leagues")
@@ -76,6 +83,7 @@ public class LeagueRestController {
         for (FootballTeam team : league.getFootballTeams()) {
             teamPoints.put(team, 0);
         }
+
 
         // Calculate points based on match results
         for (Match match : matches) {
@@ -127,6 +135,42 @@ public class LeagueRestController {
         Match latestDraw = matchService.findLatestMatchByResult(matches, Result.DRAW);
         if (latestDraw != null) {
             latestTeamsByResult.put("DRAW", latestDraw.getHomeTeam());  // vagy awayTeam
+        }
+
+        return latestTeamsByResult;
+    }
+
+
+    @GetMapping("/leagues/{leagueId}/teams3")
+    public Map<Result, FootballTeam> getTeamsByPointsInLeague3(@PathVariable int leagueId, @RequestParam Result result) {
+        League league = leagueService.findById(leagueId);
+
+        if (league == null) {
+            throw new RuntimeException("League not found - " + leagueId);
+        }
+
+        List<Match> matches = matchService.findByLeague(league);
+
+        Map<Result, FootballTeam> latestTeamsByResult = new HashMap<>();
+
+        Statistics stats = new Statistics();
+
+        Match latestMatchesByResult = matchService.findLatestMatchByResult(matches, result);
+        if (latestMatchesByResult != null && result == Result.HOME) {
+            latestTeamsByResult.put(result, latestMatchesByResult.getHomeTeam());
+            stats.setName(latestMatchesByResult.getHomeTeam().getTeamName());
+            stats.setResult("HOME");
+            statisticsService.save(stats);
+        } else if (latestMatchesByResult != null && result == Result.LOSS) {
+            latestTeamsByResult.put(result, latestMatchesByResult.getAwayTeam());
+            stats.setName(latestMatchesByResult.getAwayTeam().getTeamName());
+            stats.setResult("AWAY");
+            statisticsService.save(stats);
+        } else {
+            latestTeamsByResult.put(result, latestMatchesByResult.getHomeTeam());
+            stats.setName(latestMatchesByResult.getHomeTeam().getTeamName().concat(latestMatchesByResult.getAwayTeam().getTeamName()));
+            stats.setResult("DRAW");
+            statisticsService.save(stats);
         }
 
         return latestTeamsByResult;
