@@ -1,19 +1,20 @@
 package com.example.demo.dao;
 
+import com.example.demo.entity.FootballTeam;
 import com.example.demo.entity.League;
 import com.example.demo.entity.Match;
+import com.example.demo.entity.Match2;
 import com.example.demo.entity.Result;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.TypedQuery;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Repository;
-import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
 @Repository
-public class MatchDAOImpl implements MatchDAO {
+public class MatchDAOImpl implements MatchDAO
+{
 
     private EntityManager entityManager;
 
@@ -24,6 +25,11 @@ public class MatchDAOImpl implements MatchDAO {
 
     @Override
     public Match save(Match match) {
+        return entityManager.merge(match);
+    }
+
+    @Override
+    public Match2 save2(Match2 match) {
         return entityManager.merge(match);
     }
 
@@ -52,5 +58,18 @@ public class MatchDAOImpl implements MatchDAO {
 
     }
 
+    public List<Match> findByTeam(FootballTeam team){
+        TypedQuery<Match> query = entityManager.createQuery(
+                "from Match m where m.homeTeam.teamName = :team or m.awayTeam.teamName = :team order by m.id desc", Match.class);
+        query.setParameter("team", team.getTeamName());
+        return query.getResultList();
+    }
 
+    @Override
+    public List<Match2> findByTeam2(FootballTeam team) {
+        TypedQuery<Match2> query = entityManager.createQuery(
+                "from Match2 m where m.homeTeam.teamName = :team or m.awayTeam.teamName = :team order by m.id desc", Match2.class);
+        query.setParameter("team", team.getTeamName());
+        return query.getResultList();
+    }
 }

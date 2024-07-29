@@ -15,7 +15,7 @@ public class League {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name="id")
-    private int id;
+    private Integer id;
 
     @Column(name="league_name")
     private String leagueName;
@@ -24,9 +24,9 @@ public class League {
     @OneToMany(mappedBy = "league", cascade = {CascadeType.DETACH, CascadeType.MERGE, CascadeType.PERSIST, CascadeType.REFRESH})
     private Set<FootballTeam> footballTeams;
 
-    public League(){
-
-    }
+    @JsonManagedReference
+    @OneToMany(mappedBy = "league", cascade = {CascadeType.DETACH, CascadeType.MERGE, CascadeType.PERSIST, CascadeType.REFRESH})
+    private Set<Match> matches;
 
     public int getId() {
         return id;
@@ -52,20 +52,20 @@ public class League {
         this.footballTeams = footballTeams;
     }
 
+
+    public Set<Match> getMatches() {
+        return matches;
+    }
+
+    public void setMatches(Set<Match> matches) {
+        this.matches = matches;
+    }
+
     public void add(FootballTeam footballTeam){
         if(footballTeams == null){
             footballTeams = new HashSet<>();
         }
             footballTeams.add(footballTeam);
         footballTeam.setLeague(this);
-    }
-
-    @Override
-    public String toString() {
-        return "League{" +
-                "id=" + id +
-                ", leagueName='" + leagueName + '\'' +
-                ", footballTeams=" + footballTeams +
-                '}';
     }
 }

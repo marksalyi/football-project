@@ -1,6 +1,7 @@
 package com.example.demo.service;
 
 import com.example.demo.entity.League;
+import com.example.demo.entity.Match;
 
 import java.util.List;
 
@@ -15,4 +16,8 @@ public interface LeagueService {
     void deleteById(int theId);
 
     void update(League theLeague);
+
+    List<Match> findAllMatchesByLeagueId(int theId);
+
+    void getResults(int theId);
 }

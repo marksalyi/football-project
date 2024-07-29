@@ -1,15 +1,22 @@
 package com.example.demo.entity;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
-import jakarta.persistence.*;
+import jakarta.persistence.Column;
+import jakarta.persistence.Entity;
+import jakarta.persistence.EnumType;
+import jakarta.persistence.Enumerated;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
+import jakarta.persistence.Table;
 
 import java.time.LocalDate;
 
-
 @Entity
-@Table(name="football_match")
-public class Match implements Comparable<Match>{
-
+@Table(name="football_match2")
+public class Match2 implements Comparable<Match2>{
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name="id")
@@ -31,16 +38,8 @@ public class Match implements Comparable<Match>{
     @Column(name = "away_team_score")
     private int awayTeamScore;
 
-    @Column(name = "result")
-    @Enumerated(EnumType.STRING)
-    private Result result;
     @Column(name = "match_date")
     private LocalDate date;
-
-    @JsonBackReference
-    @ManyToOne
-    @JoinColumn(name = "league_id")
-    private League league;
 
     public int getId() {
         return id;
@@ -82,14 +81,6 @@ public class Match implements Comparable<Match>{
         this.awayTeamScore = awayTeamScore;
     }
 
-    public Result getResult() {
-        return result;
-    }
-
-    public void setResult(Result result) {
-        this.result = result;
-    }
-
     public LocalDate getDate() {
         return date;
     }
@@ -98,15 +89,7 @@ public class Match implements Comparable<Match>{
         this.date = date;
     }
 
-    public League getLeague() {
-        return league;
-    }
-
-    public void setLeague(League league) {
-        this.league = league;
-    }
-
     @Override
-    public int compareTo(Match o) {
+    public int compareTo(Match2 o) {
         return this.date.compareTo(o.date);}
 }

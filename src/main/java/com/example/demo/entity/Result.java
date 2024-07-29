@@ -1,7 +1,7 @@
 package com.example.demo.entity;
 
 public enum Result {
-    HOME,
+    WIN,
     DRAW,
     LOSS
 }
