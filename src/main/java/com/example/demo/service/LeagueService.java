@@ -20,4 +20,6 @@ public interface LeagueService {
     List<Match> findAllMatchesByLeagueId(int theId);
 
     void getResults(int theId);
+
+    void getResults2(int theId);
 }

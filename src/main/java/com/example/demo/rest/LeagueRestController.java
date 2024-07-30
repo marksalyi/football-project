@@ -275,5 +275,17 @@ public class LeagueRestController {
        leagueService.getResults(leagueId);
 
             }
+
+    @GetMapping("/results3/{leagueId}")
+    public void getTeamResults3(@PathVariable int leagueId){
+        // TODO only validation in REST layer
+        // logic belongs to service layer
+        // first grab all the matches by a league
+        // based on the home and away id and scores decide is it a win or loss for a team and save it to a list or a map
+        leagueService.getResults2(leagueId);
+
+    }
         }
+
+        // keep in mind if you dont specify a string type of key it can be anything -> solution ENUM
 

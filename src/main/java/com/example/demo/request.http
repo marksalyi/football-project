@@ -1,6 +1,6 @@
 ### Get the team with the latest result for league with id 1
 ### Create a new statistics entry
-GET http://localhost:8080/api/league/results2/1
+GET http://localhost:8080/api/league/results3/1
 Content-Type: application/json
 
 
