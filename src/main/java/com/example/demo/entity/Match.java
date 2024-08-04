@@ -1,9 +1,12 @@
 package com.example.demo.entity;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 
 import java.time.LocalDate;
+import java.util.HashSet;
+import java.util.Set;
 
 
 @Entity
@@ -15,12 +18,12 @@ public class Match implements Comparable<Match>{
     @Column(name="id")
     private int id;
 
-    @JsonBackReference
+
     @ManyToOne
     @JoinColumn(name = "home_team_id", nullable = false)
     private FootballTeam homeTeam;
 
-    @JsonBackReference
+
     @ManyToOne
     @JoinColumn(name = "away_team_id", nullable = false)
     private FootballTeam awayTeam;
@@ -37,10 +40,14 @@ public class Match implements Comparable<Match>{
     @Column(name = "match_date")
     private LocalDate date;
 
-    @JsonBackReference
-    @ManyToOne
-    @JoinColumn(name = "league_id")
-    private League league;
+
+    @ManyToMany(mappedBy = "matches")
+    private Set<League> leagues = new HashSet<>();
+
+
+
+    @OneToOne(mappedBy = "matchId")
+    private MatchStatistics statistics;
 
     public int getId() {
         return id;
@@ -98,12 +105,20 @@ public class Match implements Comparable<Match>{
         this.date = date;
     }
 
-    public League getLeague() {
-        return league;
+    public Set<League> getLeagues() {
+        return leagues;
     }
 
-    public void setLeague(League league) {
-        this.league = league;
+    public void setLeagues(Set<League> leagues) {
+        this.leagues = leagues;
+    }
+
+    public MatchStatistics getStatistics() {
+        return statistics;
+    }
+
+    public void setStatistics(MatchStatistics statistics) {
+        this.statistics = statistics;
     }
 
     @Override

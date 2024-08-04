@@ -20,13 +20,18 @@ public class League {
     @Column(name="league_name")
     private String leagueName;
 
-    @JsonManagedReference
-    @OneToMany(mappedBy = "league", cascade = {CascadeType.DETACH, CascadeType.MERGE, CascadeType.PERSIST, CascadeType.REFRESH})
-    private Set<FootballTeam> footballTeams;
 
-    @JsonManagedReference
-    @OneToMany(mappedBy = "league", cascade = {CascadeType.DETACH, CascadeType.MERGE, CascadeType.PERSIST, CascadeType.REFRESH})
-    private Set<Match> matches;
+    @ManyToMany(mappedBy = "leagues", cascade = {CascadeType.DETACH, CascadeType.MERGE, CascadeType.PERSIST, CascadeType.REFRESH})
+    private Set<FootballTeam> footballTeams = new HashSet<>();
+
+
+    @ManyToMany(cascade = {CascadeType.DETACH, CascadeType.MERGE, CascadeType.PERSIST, CascadeType.REFRESH})
+    @JoinTable(
+            name = "league_football_match",
+            joinColumns = @JoinColumn(name = "league_id"),
+            inverseJoinColumns = @JoinColumn(name = "football_match_id")
+    )
+    private Set<Match> matches = new HashSet<>();
 
     public int getId() {
         return id;
@@ -61,11 +66,4 @@ public class League {
         this.matches = matches;
     }
 
-    public void add(FootballTeam footballTeam){
-        if(footballTeams == null){
-            footballTeams = new HashSet<>();
-        }
-            footballTeams.add(footballTeam);
-        footballTeam.setLeague(this);
-    }
 }

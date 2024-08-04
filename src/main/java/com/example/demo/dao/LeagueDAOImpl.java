@@ -35,7 +35,7 @@ public class LeagueDAOImpl
 
     @Override
     public League save(League theLeague) {
-        entityManager.persist(theLeague);
+        entityManager.merge(theLeague);
         return theLeague;
     }
 

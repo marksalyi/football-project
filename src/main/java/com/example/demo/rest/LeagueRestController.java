@@ -285,7 +285,14 @@ public class LeagueRestController {
         leagueService.getResults2(leagueId);
 
     }
-        }
 
-        // keep in mind if you dont specify a string type of key it can be anything -> solution ENUM
+    @PutMapping("/{leagueId}/team/{teamId}")
+    public void assignedTeamToLeague(@PathVariable int leagueId,@PathVariable int teamId){
+         leagueService.assignedTeamToLeague(leagueId, teamId);
+    }
+    // endpoint ami , manytomany kapcsolat letrehozasa a team es a liga kozott ami most van alul az ugy nem jo
+        }
+// uj tabla, sargalap, piros, szoglet, labdabirtoklas (match id)
+// controller , post h tudjunk menteni , es azok alapjan lekerni
+
 

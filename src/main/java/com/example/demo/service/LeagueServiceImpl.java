@@ -1,6 +1,8 @@
 package com.example.demo.service;
 
 import com.example.demo.dao.LeagueDAO;
+import com.example.demo.dao.TeamDAO;
+import com.example.demo.entity.FootballTeam;
 import com.example.demo.entity.League;
 import com.example.demo.entity.Match;
 import com.example.demo.entity.Result;
@@ -11,17 +13,23 @@ import org.springframework.transaction.annotation.Transactional;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
+
 
 @Service
 @Transactional
 public class LeagueServiceImpl
         implements LeagueService {
 
+
     private LeagueDAO leagueDAO;
 
+    private TeamDAO teamDAO;
 
-    public LeagueServiceImpl(LeagueDAO leagueDAO) {
+
+    public LeagueServiceImpl(LeagueDAO leagueDAO, TeamDAO teamDAO) {
         this.leagueDAO = leagueDAO;
+        this.teamDAO = teamDAO;
     }
 
     @Override
@@ -124,5 +132,25 @@ public class LeagueServiceImpl
         for (Map.Entry<String, TeamResult> entry : finalResult.entrySet()) {
             System.out.println(entry.getKey() + ", " + entry.getValue());
         }
+    }
+
+    @Override
+    public void assignedTeamToLeague(int leagueId, int teamId) {
+        Set<FootballTeam> footballTeamSet = null;
+
+        League league = leagueDAO.findById(leagueId);
+        FootballTeam team = teamDAO.findById(teamId);
+
+        team.addLeague(league);
+        teamDAO.save(team);
+
+
+      //  footballTeamSet = league.getFootballTeams();
+      //  footballTeamSet.add(team);
+      //  league.setFootballTeams(footballTeamSet);
+      //  System.out.println("team " + team.toString());
+      //  System.out.println("league " + league);
+      //  leagueDAO.save(league);
+
     }
 }

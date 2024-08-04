@@ -4,7 +4,9 @@ import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 @Entity
 @Table(name="football_team")
@@ -18,16 +20,20 @@ public class FootballTeam {
     @Column(name="team_name")
     private String teamName;
 
-    @JsonBackReference
-    @ManyToOne(cascade = {CascadeType.PERSIST, CascadeType.MERGE, CascadeType.REFRESH, CascadeType.DETACH})
-    @JoinColumn(name="league_id", referencedColumnName = "id")
-    private League league;
 
-    @JsonManagedReference
+    @ManyToMany(cascade = {CascadeType.PERSIST, CascadeType.MERGE, CascadeType.REFRESH, CascadeType.DETACH})
+    @JoinTable(
+            name = "league_football_team",
+            joinColumns = @JoinColumn(name = "football_team_id"),
+            inverseJoinColumns = @JoinColumn(name = "league_id")
+    )
+    private Set<League> leagues = new HashSet<>();
+
+
     @OneToMany(mappedBy = "homeTeam")
     private List<Match> homeMatches;
 
-    @JsonManagedReference
+
     @OneToMany(mappedBy = "awayTeam")
     private List<Match> awayMatches;
 
@@ -35,9 +41,9 @@ public class FootballTeam {
 
     }
 
-    public FootballTeam(String teamName, League league) {
+    public FootballTeam(String teamName, Set<League> league) {
         this.teamName = teamName;
-        this.league = league;
+        this.leagues = league;
     }
 
     public int getId() {
@@ -56,12 +62,12 @@ public class FootballTeam {
         this.teamName = teamName;
     }
 
-    public League getLeague() {
-        return league;
+    public Set<League> getLeagues() {
+        return leagues;
     }
 
-    public void setLeague(League league) {
-        this.league = league;
+    public void setLeagues(Set<League> leagues) {
+        this.leagues = leagues;
     }
 
     public List<Match> getHomeMatches() {
@@ -80,12 +86,18 @@ public class FootballTeam {
         this.awayMatches = awayMatches;
     }
 
+    public void addLeague(League theLeague){
+        leagues.add(theLeague);
+        theLeague.getFootballTeams().add(this);
+    }
     @Override
     public String toString() {
         return "FootballTeam{" +
                 "id=" + id +
                 ", teamName='" + teamName + '\'' +
-                ", league=" + league +
+                ", leagues=" + leagues +
+                ", homeMatches=" + homeMatches +
+                ", awayMatches=" + awayMatches +
                 '}';
     }
 }

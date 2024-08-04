@@ -65,3 +65,39 @@ For the crud operations i created Get, Put, Post and DeleteMappings with uniqe p
 ![img_9.png](img_9.png)
 ![img_10.png](img_10.png)
 ![img_11.png](img_11.png)
+
+
+footbalteam
+@JsonBackReference
+@JsonManagedReference
+@JsonManagedReference
+
+league
+@JsonManagedReference
+@JsonManagedReference
+
+match
+@JsonBackReference
+@JsonBackReference
+@JsonBackReference
+@JsonManagedReference
+
+match2
+@JsonBackReference
+@JsonBackReference
+
+matchstatistics
+@JsonBackReference
+
+POST MATCH STATISTICS
+
+POST http://localhost:8080/api/statistics/save/7
+Content-Type: application/json
+
+{
+"yellowCards": 7,
+"redCards": 0,
+"corners": 6,
+"homePossession": 37,
+"awayPossession": 63
+}

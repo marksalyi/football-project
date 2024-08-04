@@ -22,12 +22,12 @@ public class Match2 implements Comparable<Match2>{
     @Column(name="id")
     private int id;
 
-    @JsonBackReference
+
     @ManyToOne
     @JoinColumn(name = "home_team_id", nullable = false)
     private FootballTeam homeTeam;
 
-    @JsonBackReference
+
     @ManyToOne
     @JoinColumn(name = "away_team_id", nullable = false)
     private FootballTeam awayTeam;

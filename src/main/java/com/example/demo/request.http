@@ -1,8 +1,8 @@
 ### Get the team with the latest result for league with id 1
 ### Create a new statistics entry
-GET http://localhost:8080/api/league/results3/1
+
+
+GET http://localhost:8080/api/statistics/filter?column=corners&condition=greater&value=13
 Content-Type: application/json
-
-
 
 

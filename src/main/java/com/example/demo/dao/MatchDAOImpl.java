@@ -49,6 +49,8 @@ public class MatchDAOImpl implements MatchDAO
         return query.getResultList();
     }
 
+
+
     @Override
     public Match findLatestMatchByResult(List<Match> matches, Result result) {
             return matches.stream()
@@ -63,6 +65,11 @@ public class MatchDAOImpl implements MatchDAO
                 "from Match m where m.homeTeam.teamName = :team or m.awayTeam.teamName = :team order by m.id desc", Match.class);
         query.setParameter("team", team.getTeamName());
         return query.getResultList();
+    }
+
+    @Override
+    public Match findById(int theId) {
+        return entityManager.find(Match.class, theId);
     }
 
     @Override

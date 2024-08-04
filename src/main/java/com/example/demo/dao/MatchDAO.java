@@ -19,6 +19,8 @@ public interface MatchDAO {
 
     List<Match> findByTeam(FootballTeam team);
 
+    Match findById(int theId);
+
     List<Match2> findByTeam2(FootballTeam team);
 
 }
