@@ -1,0 +1,2 @@
+Reviewer Comments: The justification was poor as it failed to explain the tool, function, and parameter ratings and the fulfillment ratings of both responses by providing evidence-based reasoning.
+The justification should mention the exact parameters and values used by both responses and provide reasoning for them.
