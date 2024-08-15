@@ -83,3 +83,25 @@ Java provides arrays as a fundamental functionality. ArrayList is a component of
 ArrayList is not a fixed-size data structure, but Array is. When creating an ArrayList object, there is no need to provide its size. Even if we set a maximum capacity, we can add more parts afterward.
 Arrays can include both primitive data types and class objects, depending on the array's definition. ArrayList, on the other hand, only accepts object entries and not primitive data types. Note that when we use arraylist.add(1);, the primitive int data type is converted to an Integer object.
 Many other operations, such as indexOf() and delete(), are supported by Java ArrayList. Arrays do not support these functions.
+
+
+The prompt is ambiguous as it asks, "Where can I find this in Mississauga, Ontario?" 
+Since there is no prior conversation to provide context for what "this" refers to, the appropriate response should be to seek clarification from the user. 
+Both responses are marked as "Can't Confidently Access" in terms of dimensions, and in case of fulfillment, 
+both are marked as unfulfilling because they attempted to answer the prompt instead of asking for clarification.
+
+
+Response A and Response B are similar because both used the incorrect tool, resulting in unsatisfactory output in both cases.
+
+Both Response A and Response B used the "google_maps.query_places" tool, which is inappropriate in this context. This tool is meant for finding specific locations when no address or directions are provided. However, in this case, the user requested a short response for the following Google review: "Home was cute, clean and comfortable. Laura was very responsive with any questions."
+
+The tool and function correctness were both marked as "Incorrect" in both cases, leading to unfulfilling outcomes. Neither response provided useful information, which was the requirement for a 5-star Google review.
+
+"Response B is much better than Response A because it provided some restaurants near Huntington Beach with names that include the number seven.
+Response A, on the other hand, only provided shops with names including the number seven, but they are far away from Huntington Beach."
+The parameter "correctness" is marked as partially correct because it used a query with the value "seven" and a location bias.
+It would be much better if it only used the query parameter with the value "restaurants called seven in Huntington Beach or in Orange County," or something similar.
+Response B completely fulfills the prompt request to provide some restaurants near Huntington Beach with names that include the word "seven" or the number "7."
+
+
+In the event of both options being considered fully satisfying because they both offered a route from San Jose, Costa Rica to Peace Lodge. The only reason why Response B is slightly better than Response A is because it used the correct method to fully answer the prompt.
