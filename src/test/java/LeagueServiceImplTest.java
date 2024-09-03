@@ -130,34 +130,23 @@ public class LeagueServiceImplTest {
         league.setLeagueName("Premier League");
         league.setId(1);
 
-        List<Match> allMatches = leagueDAO.findAllMatchesByLeagueId(1);
+        List<Match> allMatches = new ArrayList<>();
+        allMatches.add(match);
+        when(leagueDAO.findAllMatchesByLeagueId(1)).thenReturn(allMatches);
 
-        Map<String, TeamResult> finalResult = new HashMap<>();
+        Map<String, TeamResult> result = leagueService.getResults3(1);
 
-        for (Match m : allMatches) {
+        TeamResult liverpoolResult = new TeamResult();
+        liverpoolResult.increment(Result.WIN);
+        TeamResult arsenalResult = new TeamResult();
+        arsenalResult.increment(Result.LOSS);
 
-            String homeTeamFor = m.getHomeTeam().getTeamName();
-            String awayTeamFor = m.getAwayTeam().getTeamName();
+        Map<String, TeamResult> expectedResult = new HashMap<>();
+        expectedResult.put("Liverpool", liverpoolResult);
+        expectedResult.put("Arsenal", arsenalResult);
 
-            finalResult.putIfAbsent(homeTeamFor, new TeamResult());
-            finalResult.putIfAbsent(awayTeamFor, new TeamResult());
+        assertEquals(expectedResult, result);
 
-            if (m.getHomeTeamScore() > m.getAwayTeamScore()) {
-                finalResult.get(homeTeamFor).increment(Result.WIN);
-                finalResult.get(awayTeamFor).increment(Result.LOSS);
-            } else if (m.getHomeTeamScore() < m.getAwayTeamScore()) {
-                finalResult.get(homeTeamFor).increment(Result.LOSS);
-                finalResult.get(awayTeamFor).increment(Result.WIN);
-            } else {
-                finalResult.get(homeTeamFor).increment(Result.DRAW);
-                finalResult.get(awayTeamFor).increment(Result.DRAW);
-            }
-        }
-
-        Map<String, TeamResult> expectedResult = leagueService.getResults3(1);
-
-        verify(leagueDAO, times(2)).findAllMatchesByLeagueId(eq(1));
-
-        assertEquals(expectedResult, finalResult);
+        verify(leagueDAO, times(1)).findAllMatchesByLeagueId(eq(1));
     }
 }
