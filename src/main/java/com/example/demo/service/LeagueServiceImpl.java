@@ -34,6 +34,7 @@ public class LeagueServiceImpl
 
     @Override
     public List<League> findAll() {
+
         return leagueDAO.findAll();
     }
 
@@ -134,23 +135,42 @@ public class LeagueServiceImpl
         }
     }
 
+    public Map<String, TeamResult> getResults3(int theId) {
+        List<Match> allMatches = leagueDAO.findAllMatchesByLeagueId(theId);
+
+        Map<String, TeamResult> finalResult = new HashMap<>();
+
+        for (Match match : allMatches) {
+
+            String homeTeam = match.getHomeTeam().getTeamName();
+            String awayTeam = match.getAwayTeam().getTeamName();
+
+            finalResult.putIfAbsent(homeTeam, new TeamResult());
+            finalResult.putIfAbsent(awayTeam, new TeamResult());
+
+            if (match.getHomeTeamScore() > match.getAwayTeamScore()) {
+                finalResult.get(homeTeam).increment(Result.WIN);
+                finalResult.get(awayTeam).increment(Result.LOSS);
+            } else if (match.getHomeTeamScore() < match.getAwayTeamScore()) {
+                finalResult.get(homeTeam).increment(Result.LOSS);
+                finalResult.get(awayTeam).increment(Result.WIN);
+            } else {
+                finalResult.get(homeTeam).increment(Result.DRAW);
+                finalResult.get(awayTeam).increment(Result.DRAW);
+            }
+        }
+
+        return finalResult;
+    }
+
     @Override
     public void assignedTeamToLeague(int leagueId, int teamId) {
-        Set<FootballTeam> footballTeamSet = null;
 
         League league = leagueDAO.findById(leagueId);
         FootballTeam team = teamDAO.findById(teamId);
 
         team.addLeague(league);
         teamDAO.save(team);
-
-
-      //  footballTeamSet = league.getFootballTeams();
-      //  footballTeamSet.add(team);
-      //  league.setFootballTeams(footballTeamSet);
-      //  System.out.println("team " + team.toString());
-      //  System.out.println("league " + league);
-      //  leagueDAO.save(league);
 
     }
 }
