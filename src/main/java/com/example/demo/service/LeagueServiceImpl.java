@@ -7,6 +7,7 @@ import com.example.demo.entity.League;
 import com.example.demo.entity.Match;
 import com.example.demo.entity.Result;
 import com.example.demo.entity.TeamResult;
+import com.example.demo.exception.LeagueNotFoundException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -40,7 +41,12 @@ public class LeagueServiceImpl
 
     @Override
     public League findById(int theId) {
-        return leagueDAO.findById(theId);
+
+        League league = leagueDAO.findById(theId);
+        if (league == null) {
+            throw new LeagueNotFoundException(theId);
+        }
+        return league;
     }
 
     @Override

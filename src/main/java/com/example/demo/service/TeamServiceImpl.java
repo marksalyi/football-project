@@ -2,6 +2,7 @@ package com.example.demo.service;
 
 import com.example.demo.dao.TeamDAO;
 import com.example.demo.entity.FootballTeam;
+import com.example.demo.exception.TeamNotFoundException;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -15,7 +16,13 @@ public class TeamServiceImpl implements TeamService {
 
     @Override
     public FootballTeam findById(int theId) {
-        return teamDAO.findById(theId);
+        FootballTeam theTeam = teamDAO.findById(theId);
+
+        if (theTeam == null) {
+            throw new TeamNotFoundException(theId);
+        }
+
+        return theTeam;
     }
 
     @Override
